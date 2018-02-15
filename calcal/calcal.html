@@ -1,0 +1,321 @@
+﻿<!--
+##
+## Program Name :
+##     Cal^2
+## Author :
+##     Liang
+## Organization :
+##     CTCI
+## Initial Release Date :
+##     2017/12/18
+## Description :
+##     Calculate the allowance value during calibration
+## Version :
+##     0.2 - 2018/02/15
+##         Change the jquery from local to global CDN
+##         Modify the instrument accuracy default
+##     0.1 - 2017/12/18
+##         Initial release
+##
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>	
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="./resource/icon/calculator.png">
+    <link rel="apple-touch-startup-image" href="./resource/icon/calculator.png">
+    <meta name="apple-mobile-web-app-title" content="">
+    <link rel="shortcut icon" href="./resource/icon/calculator.png">
+    <link rel="stylesheet" href="./scripts/jqnumpad/jquery.numpad.css">
+    <script type="text/javascript" src="./scripts/jqnumpad/jquery.numpad.js"></script>
+    <title></title>
+
+</head>
+
+<body>
+
+
+    <!--first page -->
+    <div data-role="page" id="page_configuration">
+        <div data-role="header">
+            <h1>Cal^2</h1>
+            <div data-role="navbar">
+                <ul>
+                    <li>
+                        <a href="#page_configuration" class="ui-btn-active ui-state-persist">Configuration</a>
+                    </li>
+
+                    <li>
+                        <a href="#page_result" id="navResult" name="navResult">Result</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /navbar -->
+        </div>
+        <div data-role="content">
+            <!--begin of grid-b -->
+            <div class="ui-grid-b">
+                <div class="ui-block-a">
+                    <div>
+                        <a href="#" id="btn01p" name="btn01p" class="ui-btn">&#177;0.1%</a>
+                    </div>
+                </div>
+                <div class="ui-block-b">
+                    <div>
+                        <a href="#" id="btn02p" name="btn02p" class="ui-btn">&#177;0.2%</a>
+                    </div>
+                </div>
+                <div class="ui-block-c">
+                    <div>
+                        <a href="#" id="btn03p" name="btn03p" class="ui-btn">&#177;0.3%</a>
+                    </div>
+                </div>
+                <div class="ui-block-a">
+                    <div>
+                        <a href="#" id="btn05p" name="btn05p" class="ui-btn">&#177;0.5%</a>
+                    </div>
+                </div>
+                <div class="ui-block-b">
+                    <div>
+                        <a href="#" id="btn1p" name="btn1p" class="ui-btn">&#177;1%</a>
+                    </div>
+                </div>
+                <div class="ui-block-c">
+                    <div>
+                        <a href="#" id="btn2p" name="btn2p" class="ui-btn">&#177;2%</a>
+                    </div>
+                </div>
+
+            </div>
+            <!--end of grid-b -->
+
+
+
+
+
+
+            <!--begin of grid-a -->
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <div style="text-align: center">
+                        Accuracy(%)
+                    </div>
+                </div>
+                <div class="ui-block-b">
+                    <div>
+                        <input type="number" name="txtAccuracy" id="txtAccuracy" value="10">
+                    </div>
+                </div>
+                <div class="ui-block-a">
+                    <div style="text-align: center">
+                        Minimum
+                    </div>
+                </div>
+                <div class="ui-block-b">
+                    <div>
+                        <input type="number" name="txtRangeMin" id="txtRangeMin" value="-100">
+                    </div>
+                </div>
+                <div class="ui-block-a">
+                    <div style="text-align: center">
+                        Maximum
+                    </div>
+                </div>
+                <div class="ui-block-b">
+                    <div>
+                        <input type="number" name="txtRangeMax" id="txtRangeMax" value="100">
+                    </div>
+                </div>
+            </div>
+            <!--end of grid-a -->
+
+
+
+
+
+
+
+
+
+            <a href="#page_result" id="btnCalculate" name="btnCalculate" class="ui-btn ui-corner-all">Calculate >></a>
+        </div>
+        <!-- End of content -->
+        <div data-role="footer">
+            <h1>Liang, CTCI Construction</h1>
+        </div>
+        <!-- End of footer -->
+    </div>
+    <!-- End of page -->
+
+
+    <!--begin of result page -->
+    <div data-role="page" id="page_result">
+        <div data-role="header">
+            <h3>Cal^2</h3>
+            <div data-role="navbar">
+                <ul>
+                    <li>
+                        <a href="#page_configuration">Configuration</a>
+                    </li>
+                    <li>
+                        <a href="#page_result" class="ui-btn-active ui-state-persist">Result</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div data-role="content">
+            <table data-role="table" id="tblResult" name="tblResult" class="ui-responsive table-stroke">
+                <thead>
+                    <tr>
+                        <th data-priority="1">Percent</th>
+                        <th data-priority="2">Input</th>
+                        <th data-priority="3">L-Limit</th>
+                        <th data-priority="4">U-Limit</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>0%(sample)</th>
+                        <td>-10000(sample)</td>
+                        <td>-12000(sample)</td>
+                        <td>-8000(sample)</td>
+                    </tr>
+                    <tr>
+                        <th>50%(sample)</th>
+                        <td>0(sample)</td>
+                        <td>-2000(sample)</td>
+                        <td>+2000(sample)</td>
+                    </tr>
+                    <tr>
+                        <th>100%(sample)</th>
+                        <td>10000(sample)</td>
+                        <td>+8000(sample)</td>
+                        <td>+12000(sample)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="#page_configuration" id="btnConfig" name="btnConfig" class="ui-btn ui-corner-all">
+                << Configuration</a>
+
+        </div>
+
+        <div data-role="footer">
+            <h1>Liang, CTCI Construction</h1>
+        </div>
+    </div>
+    <!--end of result page -->
+
+
+
+
+
+    <script>
+        // Set NumPad defaults for jQuery mobile. 
+        // These defaults will be applied to all NumPads within this document!
+        $.fn.numpad.defaults.gridTpl = '<table class="ui-bar-a"></table>';
+        $.fn.numpad.defaults.backgroundTpl = '<div class="ui-popup-screen ui-overlay-a"></div>';
+        $.fn.numpad.defaults.displayTpl = '<input data-theme="a" type="text" />';
+        $.fn.numpad.defaults.buttonNumberTpl = '<a data-role="button" data-theme="a"></a>';
+        $.fn.numpad.defaults.buttonFunctionTpl = '<a data-role="button" data-theme="a"></a>';
+        $.fn.numpad.defaults.onKeypadCreate = function () { $(this).enhanceWithin(); };
+
+        function tableRowTemplate(percentage, input, llimit, ulimit) {
+            var row_template = '<tr>' +
+                '<th>' + percentage + '</th>' +
+                '<td>' + input + '</td>' +
+                '<td>' + llimit + '</td>' +
+                '<td>' + ulimit + '</td>' +
+                '</tr>';
+            return row_template;
+        }
+        function calculate() {
+            try {
+                var user_accuracy = parseFloat($("#txtAccuracy").val());
+                var user_rangemin = parseFloat($("#txtRangeMin").val());
+                var user_rangemax = parseFloat($("#txtRangeMax").val());
+                var instrument_range = user_rangemax - user_rangemin;
+                var fullscale_error = instrument_range * user_accuracy * 0.01;
+
+                var calculate_method = [0, 0.25, 0.5, 0.75, 1];
+                clen = calculate_method.length;
+                var table_content = "";
+                var val_percentage = 0.0;
+                var val_input = 0.0;
+                var val_llimit = 0.0;
+                var val_ulimit = 0.0;
+                for (cal_method_indx = 0; cal_method_indx < clen; cal_method_indx++) {
+                    val_percentage = calculate_method[cal_method_indx] * 100;
+                    val_input = instrument_range * calculate_method[cal_method_indx] + user_rangemin;
+                    val_llimit = val_input - fullscale_error;
+                    val_ulimit = val_input + fullscale_error;
+                    table_content += tableRowTemplate(
+                        String(val_percentage.toFixed(0)) + '%',
+                        String(val_input.toFixed(2)),
+                        String(val_llimit.toFixed(2)),
+                        String(val_ulimit.toFixed(2))
+                    );
+                }
+                $("#tblResult > tbody").html(table_content);
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+        function set_accuracy_text(text) {
+            $("#txtAccuracy").val(text);
+        }
+
+
+        $(document).on("pagebeforeshow", "#page_result", function () {
+            $("#tblResult").table("refresh");
+        });
+
+        $(document).ready(function () {
+            $("#txtAccuracy").numpad();
+            $("#txtRangeMin").numpad();
+            $("#txtRangeMax").numpad();
+            $("#txtAccuracy").on("click", function () {
+                $(this).numpad("open");
+            });
+            $("#txtRangeMin").on("click", function () {
+                $(this).numpad("open");
+            });
+            $("#txtRangeMax").on("click", function () {
+                $(this).numpad("open");
+            });
+            $("#navResult").on("click", function () {
+                calculate();
+            });
+            $("#btnCalculate").on("click", function () {
+                calculate();
+            });
+            $("#btn01p").on("click", function () {
+                set_accuracy_text("0.1");
+            });
+            $("#btn02p").on("click", function () {
+                set_accuracy_text("0.2");
+            });
+            $("#btn03p").on("click", function () {
+                set_accuracy_text("0.3");
+            });
+            $("#btn05p").on("click", function () {
+                set_accuracy_text("0.5");
+            });
+            $("#btn1p").on("click", function () {
+                set_accuracy_text("1");
+            });
+            $("#btn2p").on("click", function () {
+                set_accuracy_text("2");
+            });
+        });
+    </script>
+</body>
+
+</html>
