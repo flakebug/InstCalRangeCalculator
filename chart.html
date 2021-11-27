@@ -3,24 +3,160 @@
 <head>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 	<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
 	<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/base-min.css">
 	<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-min.css">
 	<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-responsive-min.css">	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script>
+		function calculate_all()
+		{
+			var txt_accuracy = document.getElementById('txt_accuracy').value;
+			var txt_lowerlimit = document.getElementById('txt_lowerlimit').value;
+			var txt_upperlimit = document.getElementById('txt_upperlimit').value;
+			var txt_value_i0 = document.getElementById('txt_value_i0').value;
+			var txt_value_i25 = document.getElementById('txt_value_i25').value;
+			var txt_value_i50 = document.getElementById('txt_value_i50').value;
+			var txt_value_i75 = document.getElementById('txt_value_i75').value;
+			var txt_value_i100 = document.getElementById('txt_value_i100').value;
+			var txt_value_d75 = document.getElementById('txt_value_d75').value;
+			var txt_value_d50 = document.getElementById('txt_value_d50').value;
+			var txt_value_d25 = document.getElementById('txt_value_d25').value;
+			var txt_value_d0 = document.getElementById('txt_value_d0').value;
+			
+			var accuracy = parseFloat(txt_accuracy) / 100;
+			var lowerlimit = parseFloat(txt_lowerlimit);
+			var upperlimit = parseFloat(txt_upperlimit);
+			var value_i0 = parseFloat(txt_value_i0);
+			var value_i25 = parseFloat(txt_value_i25);
+			var value_i50 = parseFloat(txt_value_i50);
+			var value_i75 = parseFloat(txt_value_i75);
+			var value_i100 = parseFloat(txt_value_i100);
+			var value_d75 = parseFloat(txt_value_d75);
+			var value_d50 = parseFloat(txt_value_d50);
+			var value_d25 = parseFloat(txt_value_d25);
+			var value_d0 = parseFloat(txt_value_d0);
+			
+			var range = upperlimit - lowerlimit;
+			
+			var range_100  = range * 1.00 + lowerlimit;
+			var range_75   = range * 0.75 + lowerlimit;
+			var range_50   = range * 0.50 + lowerlimit;
+			var range_25   = range * 0.25 + lowerlimit;
+			var range_0    = range * 0.00 + lowerlimit;
+			
+			var i0_diff = value_i0 - range_0;
+			var i25_diff =  value_i25 - range_25;
+			var i50_diff =  value_i50 - range_50;
+			var i75_diff = value_i75 - range_75 ;
+			var i100_diff = value_i100 - range_100;
+			var d75_diff = value_d75 - range_75;
+			var d50_diff = value_d50 - range_50;
+			var d25_diff = value_d25 - range_25;
+			var d0_diff = value_d0 - range_0;
+			
+			var allowable_error = range * accuracy;
+			
+			document.getElementById('lbl_standard_i0').innerHTML   = range * 0.00 + lowerlimit;
+			document.getElementById('lbl_standard_i25').innerHTML  = range * 0.25 + lowerlimit;
+			document.getElementById('lbl_standard_i50').innerHTML  = range * 0.50 + lowerlimit;
+			document.getElementById('lbl_standard_i75').innerHTML  = range * 0.75 + lowerlimit;
+			document.getElementById('lbl_standard_i100').innerHTML = range * 1.00 + lowerlimit;
+			document.getElementById('lbl_standard_d75').innerHTML  = range * 0.75 + lowerlimit;
+			document.getElementById('lbl_standard_d50').innerHTML  = range * 0.50 + lowerlimit;
+			document.getElementById('lbl_standard_d25').innerHTML  = range * 0.25 + lowerlimit;
+			document.getElementById('lbl_standard_d0').innerHTML   = range * 0.00 + lowerlimit;
+			
+			document.getElementById('lbl_allowable_error').innerHTML  = allowable_error;
+
+			create_chart(range_100,
+							range_75,
+							range_50,
+							range_25,
+							range_0,
+i0_diff,
+i25_diff,
+i50_diff,
+i75_diff,
+i100_diff,
+d75_diff,
+d50_diff,
+d25_diff,
+d0_diff);
+							
+		}
+
+
+		function create_chart(range_100,
+								range_75,
+								range_50,
+								range_25,
+								range_0,
+								value_i0,
+								value_i25,
+								value_i50,
+								value_i75,
+								value_i100,
+								value_d75,
+								value_d50,
+								value_d25,
+								value_d0)
+		{
+
+
+
+			new Chart(document.getElementById('myChart'), {
+			  type: 'line',
+			  data: {
+				datasets: [
+			
+				  {
+					label: 'increase',
+					data: [{x: value_i0, y: range_0}, {x: value_i25, y: range_25}, {x: value_i50, y: range_50}, {x: value_i75, y: range_75}, {x: value_i100, y: range_100}],
+					borderColor: "red",
+					lineTension: 0,
+					fill: false
+				  },
+				{
+					label: 'decrease',
+					data: [{x: value_i100, y: range_100}, {x: value_d75, y: range_75}, {x: value_d50, y: range_50}, {x: value_d25, y: range_25}, {x: value_d0, y: range_0}],
+					borderColor: "blue",
+					lineTension: 0,
+					fill: false
+				  },   					
+				  ],
+			  },
+			  options: {
+				showLines: true,
+				scales: {
+				  xAxes: [
+					{
+					  type: 'linear',
+					},
+				  ],
+				  yAxes: [
+					{
+					  type: 'linear',
+					},
+				  ],
+				}
+			  }
+			})		
+		}
+
+	</script>
 </head>
 <body>
 
 <form class="pure-form">
   <fieldset>
-    <legend>Instrument Configuration</legend>
+    <legend><b>Instrument Configuration</b></legend>
 
 	<div class="pure-g">
 		<div class="pure-u-1 pure-u-md-1-4">
 			<label for="lbl_accuracy">Accuracy, FS (%)</label>
 		</div>
 		<div class="pure-u-1 pure-u-md-3-4">
-			<input type="number" value="42" id="txt_accuracy" class="pure-input-1">
+			<input type="number" value="2.5" id="txt_accuracy" class="pure-input-1">
 		</div>
 	</div>
 	<div class="pure-g">
@@ -28,7 +164,7 @@
 			<label for="lbl_ulimit">Lower Limit</label>
 		</div>
 		<div class="pure-u-1 pure-u-md-3-4">
-			<input type="number" value="42" id="txt_lowerlimit" class="pure-input-1">	
+			<input type="number" value="-100" id="txt_lowerlimit" class="pure-input-1">	
 		</div>
 	</div>
 	<div class="pure-g">
@@ -36,139 +172,178 @@
 			<label for="lbl_ulimit">Upper Limit</label>
 		</div>
 		<div class="pure-u-1 pure-u-md-3-4">
-			<input type="number" value="42" id="txt_upperlimit" class="pure-input-1">	
+			<input type="number" value="100" id="txt_upperlimit" class="pure-input-1">	
 		</div>
 	</div>	
   </fieldset>
   <fieldset>
-    <legend>Test Value</legend>
+    <legend><b>Test Value</b></legend>
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-1-4">
-				<label for="percent_0">0%</label>
+				<label for="lbl_percent_i0">0%</label>
 			</div>
 			<div class="pure-u-1 pure-u-md-1-4">
-				<label for="lbl_standard_0">_</label>
+				<label for="lbl_standard_i0" id="lbl_standard_i0">_</label>
 			</div>
 			<div class="pure-u-1 pure-u-md-1-2">
-				<input type="number" value="" id="txt_value_i0" class="pure-input-1">
+				<input type="number" value="-101" id="txt_value_i0" class="pure-input-1">
 			</div>
 		</div>
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-1-4">
-				<label for="percent_0"> 25%</label>
+				<label for="lbl_percent_i25"> 25%</label>
 			</div>
 			<div class="pure-u-1 pure-u-md-1-4">
-				<label for="lbl_standard_25">_</label>
+				<label for="lbl_standard_i25" id="lbl_standard_i25">_</label>
 			</div>			
 			<div class="pure-u-1 pure-u-md-1-2">
-				<input type="number" value="" id="txt_value_i25" class="pure-input-1">
+				<input type="number" value="-51.1" id="txt_value_i25" class="pure-input-1">
 			</div>
 		</div>		
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-1-4">
-				<label for="percent_0"> 50%</label>
+				<label for="lbl_percent_i50"> 50%</label>
 			</div>
 			<div class="pure-u-1 pure-u-md-1-4">
-				<label for="lbl_standard_50">_</label>
+				<label for="lbl_standard_i50" id="lbl_standard_i50">_</label>
 			</div>			
 			<div class="pure-u-1 pure-u-md-1-2">
-				<input type="number" value="42" id="txt_value_i50" class="pure-input-1">
+				<input type="number" value="-0.8" id="txt_value_i50" class="pure-input-1">
 			</div>
 		</div>		
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-1-4">
-				<label for="percent_0"> 75%</label>
+				<label for="lbl_percent_i75"> 75%</label>
 			</div>
-			<div class="pure-u-1 pure-u-md-3-4">
-				<input type="number" value="42" id="txt_value_i75" class="pure-input-1">
+			<div class="pure-u-1 pure-u-md-1-4">
+				<label for="lbl_standard_i75" id="lbl_standard_i75">_</label>
+			</div>			
+			<div class="pure-u-1 pure-u-md-1-2">
+				<input type="number" value="49.3" id="txt_value_i75" class="pure-input-1">
 			</div>
 		</div>				
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-1-4">
-				<label for="percent_0"> 100%</label>
+				<label for="lbl_percent_i100"> 100%</label>
 			</div>
-			<div class="pure-u-1 pure-u-md-3-4">
-				<input type="number" value="42" id="txt_value_i100" class="pure-input-1">
+			<div class="pure-u-1 pure-u-md-1-4">
+				<label for="lbl_standard_i100" id="lbl_standard_i100">_</label>
+			</div>			
+			<div class="pure-u-1 pure-u-md-1-2">
+				<input type="number" value="99.8" id="txt_value_i100" class="pure-input-1">
 			</div>
 		</div>		
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-1-4">
-				<label for="percent_0"> 75%</label>
+				<label for="lbl_percent_d75"> 75%</label>
 			</div>
-			<div class="pure-u-1 pure-u-md-3-4">
-				<input type="number" value="42" id="txt_value_d75" class="pure-input-1">
+			<div class="pure-u-1 pure-u-md-1-4">
+				<label for="lbl_standard_d75" id="lbl_standard_d75">_</label>
+			</div>			
+			<div class="pure-u-1 pure-u-md-1-2">
+				<input type="number" value="51.2" id="txt_value_d75" class="pure-input-1">
 			</div>
 		</div>				
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-1-4">
-				<label for="percent_0"> 50%</label>
+				<label for="lbl_percent_d50"> 50%</label>
 			</div>
-			<div class="pure-u-1 pure-u-md-3-4">
-				<input type="number" value="42" id="txt_value_d50" class="pure-input-1">
+			<div class="pure-u-1 pure-u-md-1-4">
+				<label for="lbl_standard_d50" id="lbl_standard_d50">_</label>
+			</div>			
+			<div class="pure-u-1 pure-u-md-1-2">
+				<input type="number" value="0.9" id="txt_value_d50" class="pure-input-1">
 			</div>
 		</div>		
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-1-4">
-				<label for="percent_0"> 25%</label>
+				<label for="lbl_percent_d25"> 25%</label>
 			</div>
-			<div class="pure-u-1 pure-u-md-3-4">
-				<input type="number" value="42" id="txt_value_d25" class="pure-input-1">
+			<div class="pure-u-1 pure-u-md-1-4">
+				<label for="lbl_standard_d25" id="lbl_standard_d25">_</label>
+			</div>			
+			<div class="pure-u-1 pure-u-md-1-2">
+				<input type="number" value="-48.8" id="txt_value_d25" class="pure-input-1">
 			</div>
 		</div>		
 		<div class="pure-g">
 			<div class="pure-u-1 pure-u-md-1-4">
-				<label for="percent_0"> 0%</label>
+				<label for="lbl_percent_d0"> 0%</label>
 			</div>
-			<div class="pure-u-1 pure-u-md-3-4">
-				<input type="number" value="42" id="txt_value_d0" class="pure-input-1">
-			</div>
+			<div class="pure-u-1 pure-u-md-1-4">
+				<label for="lbl_standard_d0" id="lbl_standard_d0">_</label>
+			</div>			
+			<div class="pure-u-1 pure-u-md-1-2">
+				<input type="number" value="-99.3" id="txt_value_d0" class="pure-input-1">
 			</div>
 		</div>		
-	</div>	
   </fieldset>  
 
-
+	<fieldset>
+		<div class="pure-g">
+			<div class="pure-u-1">
+				<a onclick="calculate_all();" class="pure-button pure-input-1 pure-button-primary">Calculate</a>
+			</div>
+		</div>	
+	</fieldset>
+  <fieldset>
+    <legend><b>Calculation Value</b></legend>
+	<div class="pure-g">
+		<div class="pure-u-1 pure-u-md-1-4">
+			Allowable Error
+		</div>
+		<div class="pure-u-1 pure-u-md-3-4">
+			<label for="lbl_allowable_error" id="lbl_allowable_error">_</label>
+		</div>
+	</div>
+  <fieldset>
 </form>
-  <canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
+
+<canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
 
 
 
 <script>
+/*
 new Chart(document.getElementById('myChart'), {
   type: 'line',
   data: {
-    datasets: [
-      {
-        label: '',
-        data: [{x: -20, y: 0}, {x: -480, y: 500}, {x: -200, y: 1000}],
-        borderColor: "red",
-        fill: false
-      },
+	datasets: [
+	  {
+		label: '',
+		data: [{x: -20, y: 0}, {x: -480, y: 500}, {x: -200, y: 1000}],
+		borderColor: "red",
+		fill: false
+	  },
 	{
-        label: '',
-        data: [{x: 50, y: 0}, {x: 510, y: 500}, {x: -200, y: 1000}],
-        borderColor: "blue",
-        fill: false
-      },      
-    ],
+		label: '',
+		data: [{x: 50, y: 0}, {x: 510, y: 500}, {x: -200, y: 1000}],
+		borderColor: "blue",
+		fill: false
+	  },      
+	],
   },
   options: {
-    showLines: true,
-    scales: {
-      xAxes: [
-        {
-          type: 'linear',
-        },
-      ],
-      yAxes: [
-        {
-          type: 'linear',
-        },
-      ],
-    }
+	showLines: true,
+	scales: {
+	  xAxes: [
+		{
+		  type: 'linear',
+		},
+	  ],
+	  yAxes: [
+		{
+		  type: 'linear',
+		},
+	  ],
+	}
   }
 })
+*/
+
 </script>
+
+
 
 </body>
 </html>
