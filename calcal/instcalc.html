@@ -160,6 +160,7 @@
 			  },
 			  options: {
 				responsive: true,
+				maintainAspectRatio: true,
 				title: {
 					display: true,
 					position: 'top',
@@ -167,8 +168,8 @@
 					text: txt_tagno
 				},
 				legend: {
-					display: true,
-					position: 'bottom'
+					display: false,
+					position: 'right'
 				},				
 				showLines: true,
 				scales: {
@@ -401,15 +402,11 @@
 	</div>
   </fieldset>
 </form>
-
-
 <div class="pure-g">
-	<div class="pure-u-1">
-		<canvas id="myChart"></canvas>
+	<div class="pure-u-1" style="width:1000;height:600">
+	<canvas id="myChart"></canvas>
 	</div>
-
 </div>
-
 <form class="pure-form">
 	<div class="pure-g">
 		<div class="pure-u-1">
