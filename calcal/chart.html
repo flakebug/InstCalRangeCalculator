@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
+</head>
+<body>
+
+<form>
+  <fieldset>
+    <legend>Instrument Configuration</legend>
+	<div class="row responsive-label">
+		<div class="col-sm-12 col-md-3">
+			<label for="lbl_accuracy">Accuracy, FS (%)</label>
+		</div>
+		<div class="col-sm-12 col-md">
+			<input type="number" value="42" id="txt_accuracy" style="width:85%;" class="doc">
+		</div>
+	</div>
+	<div class="row responsive-label">
+		<div class="col-sm-12 col-md-3">
+			<label for="lbl_ulimit">Lower Limit</label>
+		</div>
+		<div class="col-sm-12 col-md">
+			<input type="number" value="42" id="txt_lowerlimit" style="width:85%;" class="doc">	
+		</div>
+	</div>
+	<div class="row responsive-label">
+		<div class="col-sm-12 col-md-3">
+			<label for="lbl_ulimit">Upper Limit</label>
+		</div>
+		<div class="col-sm-12 col-md">
+			<input type="number" value="42" id="txt_upperlimit" style="width:85%;" class="doc">	
+		</div>
+	</div>	
+  </fieldset>
+  <fieldset>
+    <legend>Test Value</legend>
+	<div class="row responsive-label">
+		<div class="col-sm-12 col-md-3">
+			<label for="percent_0">0%</label>
+		</div>
+		<div class="col-sm-12 col-md">
+			<input type="number" value="42" id="txt_value_0" style="width:85%;" class="doc">
+		</div>
+	</div>
+	<div class="row responsive-label">
+		<div class="col-sm-12 col-md-3">
+			<label for="percent_0">100%</label>
+		</div>
+		<div class="col-sm-12 col-md">
+			<input type="number" value="42" id="txt_value_100" style="width:85%;" class="doc">
+		</div>
+	</div>	
+  </fieldset>  
+</form>
+
+
+<canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
+
+
+<script>
+new Chart(document.getElementById('myChart'), {
+  type: 'line',
+  data: {
+    datasets: [
+      {
+        label: 'Increase',
+        data: [{x: -20, y: 0}, {x: -480, y: 500}, {x: -200, y: 1000}],
+        borderColor: "red",
+        fill: false
+      },
+	{
+        label: 'Decrease',
+        data: [{x: 50, y: 0}, {x: 510, y: 500}, {x: -200, y: 1000}],
+        borderColor: "blue",
+        fill: false
+      },      
+    ],
+  },
+  options: {
+    showLines: true,
+    scales: {
+      xAxes: [
+        {
+          type: 'linear',
+        },
+      ],
+      yAxes: [
+        {
+          type: 'linear',
+        },
+      ],
+    }
+  }
+})
+</script>
+
+</body>
+</html>
+
+
