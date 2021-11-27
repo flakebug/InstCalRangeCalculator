@@ -8,6 +8,8 @@
 	<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-responsive-min.css">	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script>
+		var myChart;
+		
 		function calculate_all()
 		{
 			var txt_accuracy = document.getElementById('txt_accuracy').value;
@@ -102,9 +104,11 @@ d0_diff);
 								value_d0)
 		{
 
+		if (typeof myChart != "undefined") {
+		   myChart.destroy();
+		}
 
-
-			new Chart(document.getElementById('myChart'), {
+		myChart = new Chart(document.getElementById('myChart'), {
 			  type: 'line',
 			  data: {
 				datasets: [
@@ -142,12 +146,50 @@ d0_diff);
 			  }
 			})		
 		}
-
+		function fill_example_ykw_eja110e_f()
+		{
+			document.getElementById('txt_accuracy').value = 0.055;
+			document.getElementById('txt_lowerlimit').value = 0.5;
+			document.getElementById('txt_upperlimit').value = 5;
+			document.getElementById('txt_value_i0').value = 0.498;
+			document.getElementById('txt_value_i25').value = 1.620;
+			document.getElementById('txt_value_i50').value = 2.748;
+			document.getElementById('txt_value_i75').value = 3.870;
+			document.getElementById('txt_value_i100').value = 4.998;
+			document.getElementById('txt_value_d75').value = 3.876;
+			document.getElementById('txt_value_d50').value = 2.756;
+			document.getElementById('txt_value_d25').value = 1.627;
+			document.getElementById('txt_value_d0').value = 0.505;		
+		}
+		function clear_all()
+		{
+			document.getElementById('txt_accuracy').value = "";
+			document.getElementById('txt_lowerlimit').value = "";
+			document.getElementById('txt_upperlimit').value = "";
+			document.getElementById('txt_value_i0').value = "";
+			document.getElementById('txt_value_i25').value = "";
+			document.getElementById('txt_value_i50').value = "";
+			document.getElementById('txt_value_i75').value = "";
+			document.getElementById('txt_value_i100').value = "";
+			document.getElementById('txt_value_d75').value = "";
+			document.getElementById('txt_value_d50').value = "";
+			document.getElementById('txt_value_d25').value = "";
+			document.getElementById('txt_value_d0').value = "";	
+			myChart.destroy();
+		}		
 	</script>
 </head>
 <body>
 
 <form class="pure-form">
+	<fieldset>
+		<legend><b>Fill Example</b></legend>
+		<div class="pure-g">
+			<div class="pure-u-1">
+				<a onclick="fill_example_ykw_eja110e_f();" class="pure-button pure-input-1 pure-button-primary">Yokogawa EJA110E-F</a>
+			</div>
+		</div>	
+	</fieldset>
   <fieldset>
     <legend><b>Instrument Configuration</b></legend>
 
@@ -156,23 +198,23 @@ d0_diff);
 			<label for="lbl_accuracy">Accuracy, FS (%)</label>
 		</div>
 		<div class="pure-u-1 pure-u-md-3-4">
-			<input type="number" value="2.5" id="txt_accuracy" class="pure-input-1">
+			<input type="number" value="" id="txt_accuracy" class="pure-input-1">
 		</div>
 	</div>
 	<div class="pure-g">
 		<div class="pure-u-1 pure-u-md-1-4">
-			<label for="lbl_ulimit">Lower Limit</label>
+			<label for="lbl_ulimit">Lower Range Limit</label>
 		</div>
 		<div class="pure-u-1 pure-u-md-3-4">
-			<input type="number" value="-100" id="txt_lowerlimit" class="pure-input-1">	
+			<input type="number" value="" id="txt_lowerlimit" class="pure-input-1">	
 		</div>
 	</div>
 	<div class="pure-g">
 		<div class="pure-u-1 pure-u-md-1-4">
-			<label for="lbl_ulimit">Upper Limit</label>
+			<label for="lbl_ulimit">Upper Range Limit</label>
 		</div>
 		<div class="pure-u-1 pure-u-md-3-4">
-			<input type="number" value="100" id="txt_upperlimit" class="pure-input-1">	
+			<input type="number" value="" id="txt_upperlimit" class="pure-input-1">	
 		</div>
 	</div>	
   </fieldset>
@@ -186,7 +228,7 @@ d0_diff);
 				<label for="lbl_standard_i0" id="lbl_standard_i0">_</label>
 			</div>
 			<div class="pure-u-1 pure-u-md-1-2">
-				<input type="number" value="-101" id="txt_value_i0" class="pure-input-1">
+				<input type="number" value="" id="txt_value_i0" class="pure-input-1">
 			</div>
 		</div>
 		<div class="pure-g">
@@ -197,7 +239,7 @@ d0_diff);
 				<label for="lbl_standard_i25" id="lbl_standard_i25">_</label>
 			</div>			
 			<div class="pure-u-1 pure-u-md-1-2">
-				<input type="number" value="-51.1" id="txt_value_i25" class="pure-input-1">
+				<input type="number" value="" id="txt_value_i25" class="pure-input-1">
 			</div>
 		</div>		
 		<div class="pure-g">
@@ -208,7 +250,7 @@ d0_diff);
 				<label for="lbl_standard_i50" id="lbl_standard_i50">_</label>
 			</div>			
 			<div class="pure-u-1 pure-u-md-1-2">
-				<input type="number" value="-0.8" id="txt_value_i50" class="pure-input-1">
+				<input type="number" value="" id="txt_value_i50" class="pure-input-1">
 			</div>
 		</div>		
 		<div class="pure-g">
@@ -219,7 +261,7 @@ d0_diff);
 				<label for="lbl_standard_i75" id="lbl_standard_i75">_</label>
 			</div>			
 			<div class="pure-u-1 pure-u-md-1-2">
-				<input type="number" value="49.3" id="txt_value_i75" class="pure-input-1">
+				<input type="number" value="" id="txt_value_i75" class="pure-input-1">
 			</div>
 		</div>				
 		<div class="pure-g">
@@ -230,7 +272,7 @@ d0_diff);
 				<label for="lbl_standard_i100" id="lbl_standard_i100">_</label>
 			</div>			
 			<div class="pure-u-1 pure-u-md-1-2">
-				<input type="number" value="99.8" id="txt_value_i100" class="pure-input-1">
+				<input type="number" value="" id="txt_value_i100" class="pure-input-1">
 			</div>
 		</div>		
 		<div class="pure-g">
@@ -241,7 +283,7 @@ d0_diff);
 				<label for="lbl_standard_d75" id="lbl_standard_d75">_</label>
 			</div>			
 			<div class="pure-u-1 pure-u-md-1-2">
-				<input type="number" value="51.2" id="txt_value_d75" class="pure-input-1">
+				<input type="number" value="" id="txt_value_d75" class="pure-input-1">
 			</div>
 		</div>				
 		<div class="pure-g">
@@ -252,7 +294,7 @@ d0_diff);
 				<label for="lbl_standard_d50" id="lbl_standard_d50">_</label>
 			</div>			
 			<div class="pure-u-1 pure-u-md-1-2">
-				<input type="number" value="0.9" id="txt_value_d50" class="pure-input-1">
+				<input type="number" value="" id="txt_value_d50" class="pure-input-1">
 			</div>
 		</div>		
 		<div class="pure-g">
@@ -263,7 +305,7 @@ d0_diff);
 				<label for="lbl_standard_d25" id="lbl_standard_d25">_</label>
 			</div>			
 			<div class="pure-u-1 pure-u-md-1-2">
-				<input type="number" value="-48.8" id="txt_value_d25" class="pure-input-1">
+				<input type="number" value="" id="txt_value_d25" class="pure-input-1">
 			</div>
 		</div>		
 		<div class="pure-g">
@@ -274,7 +316,7 @@ d0_diff);
 				<label for="lbl_standard_d0" id="lbl_standard_d0">_</label>
 			</div>			
 			<div class="pure-u-1 pure-u-md-1-2">
-				<input type="number" value="-99.3" id="txt_value_d0" class="pure-input-1">
+				<input type="number" value="" id="txt_value_d0" class="pure-input-1">
 			</div>
 		</div>		
   </fieldset>  
@@ -285,6 +327,11 @@ d0_diff);
 				<a onclick="calculate_all();" class="pure-button pure-input-1 pure-button-primary">Calculate</a>
 			</div>
 		</div>	
+		<div class="pure-g">
+			<div class="pure-u-1">
+				<a onclick="clear_all();" class="pure-button pure-input-1">Clear All</a>
+			</div>
+		</div>			
 	</fieldset>
   <fieldset>
     <legend><b>Calculation Value</b></legend>
